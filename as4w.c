@@ -60,35 +60,56 @@ void ShutdownMSAA()
 }
 
 
-// Callback function that handles events.
+ //Callback function that handles events.
 void CALLBACK HandleWinEvent(HWINEVENTHOOK hook, DWORD event, HWND hwnd,
 	LONG idObject, LONG idChild, DWORD dwEventThread, DWORD dwmsEventTime)
 {
-	//switch (event)
-	//{
-	//	case EVENT_OBJECT_FOCUS:
-	//		printf("dfgsdfg");
-	//		break;
-
-	//	//case EVENT_SYSTEM_SCROLLINGSTART:
-	//	//	PlayScrollingSound();
-	//	//	break;
-
-	//	//case EVENT_SYSTEM_MOVESIZESTART:
-	//	//	PlayScrollingSound();
-	//	//	break;
-
-	//	case EVENT_SYSTEM_MOVESIZEEND:
-	//		PlaySound((LPCSTR)NULL, NULL, NULL);
-	//		break;
-
-	//	case EVENT_SYSTEM_SCROLLINGEND:
-	//		PlaySound((LPCSTR)NULL, NULL, NULL);
-	//		break;
-
-	//	default:
-	//		break;
-	//}
+//	switch (event)
+//	{
+//		case EVENT_OBJECT_FOCUS:
+//			if (event != prev_event )
+//			{
+//				PlaySound((LPCSTR) "C:\\Users\\Jun-Hong\\Music\\UI Sounds\\ApplicationShow.wav", NULL, SND_FILENAME | SND_ASYNC);
+//			}
+//
+//			break;
+//
+//			//START events
+//
+//		case EVENT_OBJECT_DRAGSTART:
+//			PlayScrollingSound();
+//			break;
+//
+//		case EVENT_SYSTEM_SCROLLINGSTART:
+//			PlayScrollingSound();
+//			break;
+//
+//		case EVENT_SYSTEM_MOVESIZESTART:
+//			PlayScrollingSound();
+//			break;
+//
+//		case EVENT_SYSTEM_DRAGDROPSTART:
+//			PlayScrollingSound();
+//			break;
+//
+//			//STOP events
+//
+//		case EVENT_SYSTEM_MOVESIZEEND:
+//			PlaySound((LPCSTR)NULL, NULL, NULL);
+//			break;
+//
+//		case EVENT_SYSTEM_SCROLLINGEND:
+//			PlaySound((LPCSTR)NULL, NULL, NULL);
+//			break;
+//
+//
+//		case EVENT_SYSTEM_DRAGDROPEND:
+//			PlaySound((LPCSTR)NULL, NULL, NULL);
+//			break;
+//
+//		default:
+//			break;
+//	}
 
 	if (event == EVENT_OBJECT_DRAGSTART || event == EVENT_SYSTEM_SCROLLINGSTART || 
 		event == EVENT_SYSTEM_MOVESIZESTART || event == EVENT_SYSTEM_DRAGDROPSTART)
@@ -101,9 +122,15 @@ void CALLBACK HandleWinEvent(HWINEVENTHOOK hook, DWORD event, HWND hwnd,
 	{
 		PlaySound((LPCSTR)NULL, NULL, NULL);
 	}
+
 	else if (event == EVENT_OBJECT_FOCUS && event!= prev_event ) //play pop sound only if it was not the previous event. intended to stop mylti pops from apps with many windows. TODO: better solution: stop pops if many focus events together
 	{
 		PlaySound((LPCSTR) "C:\\Users\\Jun-Hong\\Music\\UI Sounds\\ApplicationShow.wav", NULL, SND_FILENAME | SND_ASYNC );
+	}
+
+	else
+	{
+		printf("nothing!");
 	}
 
 	prev_event = event;
