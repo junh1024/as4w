@@ -17,16 +17,16 @@ LRESULT CALLBACK WndProc(HWND hwnd, DWORD event, WPARAM wParam, LPARAM lParam)
 {
 	switch (event)
 	{
-	case WM_CLOSE:
-		DestroyWindow(hwnd);
-		break;
+		case WM_CLOSE:
+			DestroyWindow(hwnd);
+			break;
 
-	case WM_DESTROY:
-		PostQuitMessage(0);
-		break;
+		case WM_DESTROY:
+			PostQuitMessage(0);
+			break;
 
-	default:
-		return DefWindowProc(hwnd, event, wParam, lParam);
+		default:
+			return DefWindowProc(hwnd, event, wParam, lParam);
 	}
 	return 0;
 }
@@ -64,29 +64,29 @@ void CALLBACK HandleWinEvent(HWINEVENTHOOK hook, DWORD event, HWND hwnd,
 {
 	switch (event)
 	{
-	case EVENT_OBJECT_FOCUS:
-		printf("dfgsdfg");
-		break;
+		case EVENT_OBJECT_FOCUS:
+			printf("dfgsdfg");
+			break;
 
-	case EVENT_SYSTEM_SCROLLINGSTART:
-		PlayScollingSound();
-		break;
+		case EVENT_SYSTEM_SCROLLINGSTART:
+			PlayScollingSound();
+			break;
 
 
-	case EVENT_SYSTEM_MOVESIZESTART:
-		PlayScollingSound();
-		break;
+		case EVENT_SYSTEM_MOVESIZESTART:
+			PlayScollingSound();
+			break;
 
-	case EVENT_SYSTEM_MOVESIZEEND:
-		PlaySound((LPCSTR)NULL, NULL, NULL);
-		break;
+		case EVENT_SYSTEM_MOVESIZEEND:
+			PlaySound((LPCSTR)NULL, NULL, NULL);
+			break;
 
-	case EVENT_SYSTEM_SCROLLINGEND:
-		PlaySound((LPCSTR)NULL, NULL, NULL);
-		break;
+		case EVENT_SYSTEM_SCROLLINGEND:
+			PlaySound((LPCSTR)NULL, NULL, NULL);
+			break;
 
-	default:
-		break;
+		default:
+			break;
 	}
 }
 
