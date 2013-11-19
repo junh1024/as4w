@@ -69,12 +69,11 @@ void CALLBACK HandleWinEvent(HWINEVENTHOOK hook, DWORD event, HWND hwnd,
 			break;
 
 		case EVENT_SYSTEM_SCROLLINGSTART:
-			PlayScollingSound();
+			PlayScrollingSound();
 			break;
 
-
 		case EVENT_SYSTEM_MOVESIZESTART:
-			PlayScollingSound();
+			PlayScrollingSound();
 			break;
 
 		case EVENT_SYSTEM_MOVESIZEEND:
@@ -91,7 +90,7 @@ void CALLBACK HandleWinEvent(HWINEVENTHOOK hook, DWORD event, HWND hwnd,
 }
 
 
-void PlayScollingSound()
+void PlayScrollingSound()
 {
 	PlaySound((LPCSTR) "C:\\DragSoundDragging.wav", NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
 	return;
