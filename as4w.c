@@ -36,7 +36,7 @@ HWINEVENTHOOK g_hook;
 
 // Prototypes
 void CALLBACK HandleWinEvent(HWINEVENTHOOK, DWORD, HWND, LONG, LONG, DWORD, DWORD);
-void PlayScollingSound();
+void PlayScrollingSound();
 
 // Initializes COM and sets up the event hook.
 void InitializeMSAA()
@@ -62,31 +62,44 @@ void ShutdownMSAA()
 void CALLBACK HandleWinEvent(HWINEVENTHOOK hook, DWORD event, HWND hwnd,
 	LONG idObject, LONG idChild, DWORD dwEventThread, DWORD dwmsEventTime)
 {
-	switch (event)
+	//switch (event)
+	//{
+	//	case EVENT_OBJECT_FOCUS:
+	//		printf("dfgsdfg");
+	//		break;
+
+	//	//case EVENT_SYSTEM_SCROLLINGSTART:
+	//	//	PlayScrollingSound();
+	//	//	break;
+
+	//	//case EVENT_SYSTEM_MOVESIZESTART:
+	//	//	PlayScrollingSound();
+	//	//	break;
+
+	//	case EVENT_SYSTEM_MOVESIZEEND:
+	//		PlaySound((LPCSTR)NULL, NULL, NULL);
+	//		break;
+
+	//	case EVENT_SYSTEM_SCROLLINGEND:
+	//		PlaySound((LPCSTR)NULL, NULL, NULL);
+	//		break;
+
+	//	default:
+	//		break;
+	//}
+
+	if (event == EVENT_OBJECT_DRAGSTART || event == EVENT_SYSTEM_SCROLLINGSTART || event == EVENT_SYSTEM_MOVESIZESTART )
 	{
-		case EVENT_OBJECT_FOCUS:
-			printf("dfgsdfg");
-			break;
-
-		case EVENT_SYSTEM_SCROLLINGSTART:
-			PlayScrollingSound();
-			break;
-
-		case EVENT_SYSTEM_MOVESIZESTART:
-			PlayScrollingSound();
-			break;
-
-		case EVENT_SYSTEM_MOVESIZEEND:
-			PlaySound((LPCSTR)NULL, NULL, NULL);
-			break;
-
-		case EVENT_SYSTEM_SCROLLINGEND:
-			PlaySound((LPCSTR)NULL, NULL, NULL);
-			break;
-
-		default:
-			break;
+		PlayScrollingSound();
 	}
+
+	else if (event == EVENT_SYSTEM_SCROLLINGEND || event == EVENT_SYSTEM_MOVESIZEEND)
+	{
+		PlaySound((LPCSTR)NULL, NULL, NULL);
+	}
+	return 0;
+
+
 }
 
 
