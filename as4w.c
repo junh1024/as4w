@@ -12,6 +12,8 @@ http://stackoverflow.com/questions/1565439/how-to-playsound-in-c-using-windows-a
 
 const char g_szClassName[] = "myWindowClass";
 
+DWORD prev_event;
+
 // Step 4: the Window Procedure
 LRESULT CALLBACK WndProc(HWND hwnd, DWORD event, WPARAM wParam, LPARAM lParam)
 {
@@ -99,13 +101,14 @@ void CALLBACK HandleWinEvent(HWINEVENTHOOK hook, DWORD event, HWND hwnd,
 	{
 		PlaySound((LPCSTR)NULL, NULL, NULL);
 	}
-	else if (event == EVENT_OBJECT_FOCUS)
+	else if (event == EVENT_OBJECT_FOCUS && event!= prev_event ) //play pop sound only if it was not the previous event. intended to stop mylti pops from apps with many windows. TODO: better solution: stop pops if many focus events together
 	{
 		PlaySound((LPCSTR) "C:\\Users\\Jun-Hong\\Music\\UI Sounds\\ApplicationShow.wav", NULL, SND_FILENAME | SND_ASYNC );
 	}
-	return 0;
 
+	prev_event = event;
 
+	return;
 }
 
 
