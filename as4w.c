@@ -88,14 +88,20 @@ void CALLBACK HandleWinEvent(HWINEVENTHOOK hook, DWORD event, HWND hwnd,
 	//		break;
 	//}
 
-	if (event == EVENT_OBJECT_DRAGSTART || event == EVENT_SYSTEM_SCROLLINGSTART || event == EVENT_SYSTEM_MOVESIZESTART )
+	if (event == EVENT_OBJECT_DRAGSTART || event == EVENT_SYSTEM_SCROLLINGSTART || 
+		event == EVENT_SYSTEM_MOVESIZESTART || event == EVENT_SYSTEM_DRAGDROPSTART)
 	{
 		PlayScrollingSound();
 	}
 
-	else if (event == EVENT_SYSTEM_SCROLLINGEND || event == EVENT_SYSTEM_MOVESIZEEND)
+	else if (event == EVENT_SYSTEM_SCROLLINGEND || event == EVENT_SYSTEM_MOVESIZEEND ||
+			event == EVENT_SYSTEM_DRAGDROPEND)
 	{
 		PlaySound((LPCSTR)NULL, NULL, NULL);
+	}
+	else if (event == EVENT_OBJECT_FOCUS)
+	{
+		PlaySound((LPCSTR) "C:\\Users\\Jun-Hong\\Music\\UI Sounds\\ApplicationShow.wav", NULL, SND_FILENAME | SND_ASYNC );
 	}
 	return 0;
 
@@ -105,7 +111,7 @@ void CALLBACK HandleWinEvent(HWINEVENTHOOK hook, DWORD event, HWND hwnd,
 
 void PlayScrollingSound()
 {
-	PlaySound((LPCSTR) "C:\\DragSoundDragging.wav", NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
+	PlaySound((LPCSTR) "C:\\Users\\Jun-Hong\\Music\\UI Sounds\\DragSoundDragging.wav", NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
 	return;
 }
 
