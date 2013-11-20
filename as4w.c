@@ -12,7 +12,10 @@ http://stackoverflow.com/questions/1565439/how-to-playsound-in-c-using-windows-a
 
 const char g_szClassName[] = "myWindowClass";
 
+HWINEVENTHOOK g_hook; // Global variable.
+
 DWORD prev_event;
+HWND prev_hwnd;
 
 // Step 4: the Window Procedure
 LRESULT CALLBACK WndProc(HWND hwnd, DWORD event, WPARAM wParam, LPARAM lParam)
@@ -33,8 +36,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, DWORD event, WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-// Global variable.
-HWINEVENTHOOK g_hook;
+
 
 // Prototypes
 void CALLBACK HandleWinEvent(HWINEVENTHOOK, DWORD, HWND, LONG, LONG, DWORD, DWORD);
@@ -64,6 +66,8 @@ void ShutdownMSAA()
 void CALLBACK HandleWinEvent(HWINEVENTHOOK hook, DWORD event, HWND hwnd,
 	LONG idObject, LONG idChild, DWORD dwEventThread, DWORD dwmsEventTime)
 {
+
+	//Windows doesn't distingush between a window move and a resize (but MacOS does)
 	if (event == EVENT_OBJECT_DRAGSTART || event == EVENT_SYSTEM_SCROLLINGSTART || 
 		event == EVENT_SYSTEM_MOVESIZESTART || event == EVENT_SYSTEM_DRAGDROPSTART)
 	{
@@ -76,16 +80,78 @@ void CALLBACK HandleWinEvent(HWINEVENTHOOK hook, DWORD event, HWND hwnd,
 		PlaySound((LPCSTR)NULL, NULL, NULL);
 	}
 
-	else if (event == EVENT_OBJECT_FOCUS && event!= prev_event ) //play pop sound only if it was not the previous event. intended to stop mylti pops from apps with many windows. TODO: better solution: stop pops if many focus events together
+	else if (event == EVENT_OBJECT_FOCUS && event != prev_event) //play pop sound only if it was not the previous event. intended to stop mylti pops from apps with many windows. TODO: better solution: stop pops if many focus events together
 	{
-		PlaySound((LPCSTR) "C:\\Users\\Jun-Hong\\Music\\UI Sounds\\ApplicationShow.wav", NULL, SND_FILENAME | SND_ASYNC );
+		//PlaySound((LPCSTR) "C:\\Users\\Jun-Hong\\Music\\UI Sounds\\ApplicationShow.wav", NULL, SND_FILENAME | SND_ASYNC);
+		PlaySound((LPCSTR) "C:\\Users\\Jun-Hong\\Music\\UI Sounds\\MenuItemHilite.wav", NULL, SND_FILENAME | SND_ASYNC);
 	}
 
-	else
+
+
+	else if (event == EVENT_SYSTEM_FOREGROUND )
 	{
-		printf("nothing!");
+		PlaySound((LPCSTR) "C:\\Users\\Jun-Hong\\Music\\UI Sounds\\ApplicationShow.wav", NULL, SND_FILENAME | SND_ASYNC);
 	}
 
+	else if (event == EVENT_OBJECT_INVOKED  )
+	{
+		PlaySound((LPCSTR) "C:\\Users\\Jun-Hong\\Music\\UI Sounds\\ReceiveDrop.wav", NULL, SND_FILENAME | SND_ASYNC);
+	}
+
+	//extra?
+
+	//else if (event == EVENT_SYSTEM_DIALOGSTART)
+	//{
+	//	PlaySound((LPCSTR) "C:\\Users\\Jun-Hong\\Music\\UI Sounds\\ReceiveDrop.wav", NULL, SND_FILENAME | SND_ASYNC);
+	//}
+
+	//else if (event == EVENT_SYSTEM_DIALOGEND)
+	//{
+	//	PlaySound((LPCSTR) "C:\\Users\\Jun-Hong\\Music\\UI Sounds\\ReceiveDrop.wav", NULL, SND_FILENAME | SND_ASYNC);
+	//}
+
+	//else if (event == EVENT_SYSTEM_MENUPOPUPSTART)
+	//{
+	//	PlaySound((LPCSTR) "C:\\Users\\Jun-Hong\\Music\\UI Sounds\\ReceiveDrop.wav", NULL, SND_FILENAME | SND_ASYNC);
+	//}
+
+	//else if (event == EVENT_SYSTEM_MENUPOPUPEND)
+	//{
+	//	PlaySound((LPCSTR) "C:\\Users\\Jun-Hong\\Music\\UI Sounds\\ReceiveDrop.wav", NULL, SND_FILENAME | SND_ASYNC);
+	//}
+
+	//else if (event == EVENT_SYSTEM_MENUSTART)
+	//{
+	//	PlaySound((LPCSTR) "C:\\Users\\Jun-Hong\\Music\\UI Sounds\\ReceiveDrop.wav", NULL, SND_FILENAME | SND_ASYNC);
+	//}
+
+	//else if (event == EVENT_SYSTEM_MENUEND)
+	//{
+	//	PlaySound((LPCSTR) "C:\\Users\\Jun-Hong\\Music\\UI Sounds\\ReceiveDrop.wav", NULL, SND_FILENAME | SND_ASYNC);
+	//}
+
+	//else if (event == EVENT_SYSTEM_MINIMIZESTART)
+	//{
+	//	PlaySound((LPCSTR) "C:\\Users\\Jun-Hong\\Music\\UI Sounds\\ReceiveDrop.wav", NULL, SND_FILENAME | SND_ASYNC);
+	//}
+
+	//else if (event == EVENT_SYSTEM_MINIMIZEEND)
+	//{
+	//	PlaySound((LPCSTR) "C:\\Users\\Jun-Hong\\Music\\UI Sounds\\ReceiveDrop.wav", NULL, SND_FILENAME | SND_ASYNC);
+	//}
+
+
+	//else if (event == EVENT_SYSTEM_SWITCHSTART)
+	//{
+	//	PlaySound((LPCSTR) "C:\\Users\\Jun-Hong\\Music\\UI Sounds\\ReceiveDrop.wav", NULL, SND_FILENAME | SND_ASYNC);
+	//}
+
+	//else if (event == EVENT_SYSTEM_SWITCHEND)
+	//{
+	//	PlaySound((LPCSTR) "C:\\Users\\Jun-Hong\\Music\\UI Sounds\\ReceiveDrop.wav", NULL, SND_FILENAME | SND_ASYNC);
+	//}
+
+	prev_hwnd = hwnd;
 	prev_event = event;
 
 	return;
